@@ -1,0 +1,23 @@
+{
+	"name": "http-server",
+	"version": "1.0.0",
+	"description": "This is an example to create a http server without express in nodejs",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js",
+		"dev": "nodemon server.js"
+	},
+	"keywords": [
+		"nodejs",
+		"http",
+		"server",
+		"blogpost",
+		"tutorial"
+	],
+	"author": "Yomesh Gupta <yomesh.gupta@gmail.com> (http://www.yomeshgupta.com/)",
+	"license": "MIT",
+	"devDependencies": {
+		"nodemon": "^1.18.10"
+	}
+}
