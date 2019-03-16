@@ -15,4 +15,10 @@ const server = http.createServer((req, res) => {
 	});
 });
 
-server.listen(CONFIG.PORT, () => console.log(`Server running on ${CONFIG.PORT}`));
+server
+	.listen(CONFIG.PORT, () => {
+		console.log(`Server running on ${CONFIG.PORT}`);
+	})
+	.on('error', err => {
+		console.log('Server start up failed', err);
+	});
