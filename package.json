@@ -1,7 +1,7 @@
 {
-	"name": "minimal-js",
+	"name": "minimal.js",
 	"version": "1.0.0",
-	"description": "This is an example to create a your own framework like express in nodejs",
+	"description": "Minimal.js is a simple yet powerful web framework inspired by Express.js.",
 	"main": "server.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
