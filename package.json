@@ -1,5 +1,5 @@
 {
-	"name": "Minimal.js",
+	"name": "minimal.js",
 	"version": "1.0.0",
 	"description": "Minimal.js is a simple yet powerful web framework inspired by Express.js.",
 	"main": "server.js",
