@@ -4,24 +4,39 @@ const path = require('path');
 
 const request = require('./request');
 const response = require('./response');
+const { checkMiddlewareInputs, matchPath } = require('./lib/helpers');
 
 function Minimal() {
 	const _middlewares = [];
 
 	function use(...args) {
-		let path = '*';
-		let handler = null;
-
-		if (args.length === 2) [path, handler] = args;
-		else handler = args[0];
-
-		if (typeof path !== 'string') throw new Error('Path needs to be either a string');
-		else if (typeof handler !== 'function') throw new Error('Middleware needs to be a function');
-
+		const { path, handler } = checkMiddlewareInputs(args);
 		_middlewares.push({
 			path,
 			handler
 		});
+	}
+
+	function findNext(req, res) {
+		let current = -1;
+		const next = () => {
+			current += 1;
+			const middleware = _middlewares[current];
+			const { matched = false, params = {} } = middleware ? matchPath(middleware.path, req.pathname) : {};
+
+			if (matched) {
+				req.params = params;
+				middleware.handler(req, res, next);
+			} else if (current <= _middlewares.length) {
+				next();
+			}
+		};
+		return next;
+	}
+
+	function handle(req, res) {
+		const next = findNext(req, res);
+		next();
 	}
 
 	function listen(port = 8080, cb) {
@@ -29,12 +44,7 @@ function Minimal() {
 			.createServer((req, res) => {
 				request(req);
 				response(res);
-				fs.readFile(path.resolve(__dirname, '../', 'public', 'index.html'), (err, data) => {
-					if (err) {
-						return res.status(500).send('Error Occured');
-					}
-					return res.status(200).send(data);
-				});
+				handle(req, res);
 			})
 			.listen({ port }, () => {
 				if (cb) {
