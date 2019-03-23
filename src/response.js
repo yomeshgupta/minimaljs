@@ -13,7 +13,7 @@ function response(res) {
 
 	res.send = content => {
 		res.setHeader('Content-Type', 'text/html');
-		end(content);
+		return end(content);
 	};
 
 	res.json = content => {
@@ -23,7 +23,7 @@ function response(res) {
 			throw err;
 		}
 		res.setHeader('Content-Type', 'application/json');
-		end(content);
+		return end(content);
 	};
 
 	res.redirect = url => {
