@@ -2,6 +2,9 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
+const request = require('./request');
+const response = require('./response');
+
 function Minimal() {
 	const _middlewares = [];
 
@@ -24,14 +27,13 @@ function Minimal() {
 	function listen(port = 8080, cb) {
 		return http
 			.createServer((req, res) => {
+				request(req);
+				response(res);
 				fs.readFile(path.resolve(__dirname, '../', 'public', 'index.html'), (err, data) => {
-					res.setHeader('Content-Type', 'text/html');
 					if (err) {
-						res.writeHead(500);
-						res.end('Some error occured');
+						return res.status(500).send('Error Occured');
 					}
-					res.writeHead(200);
-					return res.end(data);
+					return res.status(200).send(data);
 				});
 			})
 			.listen({ port }, () => {
