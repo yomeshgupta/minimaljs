@@ -7,20 +7,18 @@ const CONFIG = require('./config');
 
 const app = minimal();
 
-app.use('/about', cors());
-app.use('/about', (req, res, next) => {
+app.use(cors());
+
+app.get('/about', (req, res) => {
 	res.send('I am the about page');
-	next();
 });
 
-app.use('/', (req, res, next) => {
+app.get('/', (req, res) => {
 	fs.readFile(path.resolve(__dirname, 'public', 'index.html'), (err, data) => {
 		if (err) {
-			res.status(500).send('Error Occured');
-			return next();
+			return res.status(500).send('Error Occured');
 		}
-		res.status(200).send(data);
-		return next();
+		return res.status(200).send(data);
 	});
 });
 
